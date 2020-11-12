@@ -58,7 +58,7 @@
 
             </template>
              <template v-slot:[`item.checks`]="{ item }">
-                    <v-checkbox multiple :key="item" @click.capture.stop="checkItem(item)"/>              
+                    <v-checkbox multiple :key="item" @click.capture.stop="cekList(item)"/>              
                 </template>
 
             <template v-slot:[`item.actions`]="{ item }">
@@ -79,7 +79,7 @@
         
             
         <div
-            v-show="detailData"
+            v-if="detailData == true"
             class="flex">
 
             <h1>{{ editedItem.task }} <span>    
@@ -139,7 +139,7 @@
                         <v-list-item-title>•  {{item.task}}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-btn color="error" dark @click="deleteAll">
+                <v-btn color="error" dark @click="deleteAll()">
                     Hapus Semua
             </v-btn>
         </v-card>
@@ -157,20 +157,17 @@
                         v-model="formTodo.task"
                         label="Task"
                         required
-                        
                     ></v-text-field>
                     <v-select
                         v-model="formTodo.priority"
                         :items="['Penting', 'Biasa', 'Tidak penting']"
                         label="Priority"
                         required
-                        
                     ></v-select>
                     <v-textarea
                         v-model="formTodo.note"
                         label="Note"
                         required
-                        
                     ></v-textarea>
                 </v-container>
             </v-card-text>
@@ -299,6 +296,11 @@ export default {
                 priority: null,
                 note: null,
             },
+            noteArr: {
+                task: null,
+                priority: null,
+                note: null,
+            },
         };
     },
     methods: {
@@ -336,8 +338,11 @@ export default {
                 note: null,
             };
         },
+        
+        
         editItem(){
             this.editedItem = Object.assign({}, this.todos[this.editedIndex])
+            this.tempArray = Object.assign({}, this.todos[this.editedIndex])
             this.dialog_edit = true  
         },
         
@@ -345,7 +350,12 @@ export default {
             this.dialog_delete = true
         },
         deleteAll(){             
-            this.detailData = false
+            for(var i = 0; i < this.check.length; i++){       
+                if(this.noteArr.task == this.check[i].task && this.noteArr.priority == this.check[i].priority && this.noteArr.note == this.check[i].note)
+                {
+                    this.detailData=false
+                }
+            }
             for(var i = 0; i < this.check.length; i++){            
                 this.todos.splice( this.todos.indexOf(this.check[i]), 1);
             }
@@ -358,12 +368,13 @@ export default {
             this.detailData = false
         },
         showData(i){
+            this.noteArr = []
             this.editedIndex = this.todos.indexOf(i)
+            this.noteArr = Object.assign({}, i)
             this.editedItem = Object.assign({}, i)
-            this.tempArray = Object.assign({}, i)
             this.detailData=true
         },
-        checkItem(item){
+        cekList(item){
             if(this.check.includes(item)) {
                 this.check.splice(this.check.indexOf(item), 1);
             } else {
