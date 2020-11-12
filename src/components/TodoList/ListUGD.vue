@@ -318,6 +318,7 @@ export default {
             };
         },
         editItem(){
+            this.tempArray = Object.assign({}, this.todos[this.editedIndex])
             this.editedItem = Object.assign({}, this.todos[this.editedIndex])
             this.dialog_edit = true  
         },
@@ -335,7 +336,6 @@ export default {
         showData(i){
             this.editedIndex = this.todos.indexOf(i)
             this.editedItem = Object.assign({}, i)
-            this.tempArray = Object.assign({}, i)
             this.detailData=true
         },
 
