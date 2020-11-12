@@ -28,7 +28,7 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
-        <div class="greylighten-4 fullheight pa-5">
+        <div class="grey lighten-4 fullheight pa-5">
             <router-view></router-view>
         </div>
     </div>
@@ -42,6 +42,8 @@ export default {
             items: [
                 { title: "Dashboard", to: "/"},
                 { title: "GD", to: "/gd"},
+                { title: "UGD", to: "/ugd"},
+                { title: "TUGAS", to: "/tugas"},
             ],
         };
     },
